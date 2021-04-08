@@ -28,5 +28,5 @@ func main() {
 			break
 		}
 	}
-	fmt.Println(tokens)
+	fmt.Println(tokens[0].Function.Body)
 }
