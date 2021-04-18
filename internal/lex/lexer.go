@@ -94,13 +94,23 @@ func Lexer() Token {
 		GetChar()
 		return Token{Type: "Assign", Start: start, End: Pointer, Lexeme: "->"}
 	}
-
+	if lastChar == "(" {
+		start := Pointer
+		return Token{Type: "L-Bracket", Start: start, End: Pointer, Lexeme: "("}
+	}
+	if lastChar == ")" {
+		start := Pointer
+		return Token{Type: "R-Bracket", Start: start, End: Pointer, Lexeme: ")"}
+	}
 	if isNum() || lastChar == "." {
 		start := Pointer
 		num := lastChar
 		GetChar()
-		for isNum() || lastChar == "." {
+		for {
 			num += lastChar
+			if Peek() == "\n" || isNum() == false || lastChar == "." {
+				break
+			}
 			GetChar()
 		}
 		if num == "." {
@@ -131,7 +141,7 @@ func Lexer() Token {
 	if lastChar == ":" && Peek() == ":" {
 		start := Pointer
 		GetChar()
-		return Token{Type: "Number", Start: start, End: Pointer, Lexeme: "::"}
+		return Token{Type: "ref", Start: start, End: Pointer, Lexeme: "::"}
 	}
 	if lastChar == "EOF" {
 		return Token{Type: "End", Start: Pointer, End: Pointer, Lexeme: "EOF"}

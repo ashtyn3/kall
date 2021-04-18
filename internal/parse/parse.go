@@ -30,11 +30,20 @@ type String struct {
 	Value  string
 	Length int
 }
+type Ops struct {
+	Type  string
+	Value string
+}
+type Equation struct {
+	Body [][]Ops
+}
+
 type Item struct {
 	Type     string
 	Variable *Var
 	String   *String
 	Function *Func
+	Equation *Equation
 	Line     int
 	IsEOF    bool
 }
@@ -167,9 +176,11 @@ func funcParser() Item {
 
 	getTok() // eat {
 	body := []Item{}
-
 	for curTok.Lexeme != "}" {
 		body = append(body, Parse(false))
+		if curTok.Lexeme == "}" {
+			break
+		}
 		getTok()
 	}
 
@@ -191,6 +202,9 @@ func Parse(move bool) Item {
 	}
 	if curTok.Type == "String" {
 		return stringParser()
+	}
+	if curTok.Type == "Number" || curTok.Type == "Float" {
+		return PresParse()
 	}
 	if curTok.Type == "New-Line" {
 		line += 1

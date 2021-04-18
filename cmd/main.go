@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"kall/internal/compile"
 	"kall/internal/lex"
 	"kall/internal/parse"
 	"os"
@@ -19,7 +19,6 @@ func main() {
 		lex.GetChar()
 	}
 	parse.Toks = tokArr
-
 	tokens := []parse.Item{}
 	for {
 		out := parse.Parse(true)
@@ -28,5 +27,6 @@ func main() {
 			break
 		}
 	}
-	fmt.Println(tokens[0].Function.Body)
+	//fmt.Println(tokens[0].Function.Body[1].Variable.Value[0].Equation)
+	compile.Compiler(tokens, "main")
 }

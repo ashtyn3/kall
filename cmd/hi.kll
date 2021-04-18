@@ -1,3 +1,6 @@
-func hi(int main, string wow) -> string {
-    string zoom -> "wow"
+use io
+
+func main(int main, string wow) -> string {
+    float zoom -> 30 / 10 + 2 * 800
+    io::out("hello world!")
 }
